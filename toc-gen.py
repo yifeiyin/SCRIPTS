@@ -2,7 +2,7 @@
 
 2019 March 27
 
-Usage: python3 toc-gen.py filename.md
+Usage: $ python3 toc-gen.py filename.md
 
 - In the markdown file, to generate toc for the first time, put this special tag
 `<toc>` at where you want the toc to be.
@@ -47,9 +47,6 @@ def generateTOC(filename):
 
     if len(contents) == 0:
         print("Unable to find suitable contents in the markdown file. This could be caused by the missing `<!-- /TOC -->`.")
-
-    # `index` is what shows up in the raw text of toc.
-    # This does not affect the result of html file.
 
     number_of_level_one = 0
     for content in contents:
@@ -96,4 +93,4 @@ if __name__ == "__main__":
         except FileNotFoundError as e:
             print(e)
     else:
-        print("USAGE:", "$ python toc.py filename.md")
+        print("USAGE:", "$ python3 toc-gen.py filename.md")
