@@ -78,6 +78,9 @@ def generateTOC(filename):
     elif "<!-- TOC -->" in filecontents:
         print("Updating toc...", end="")
         filecontents = re.sub(string_to_replace_pattern, toctext, filecontents, flags = re.M | re.I)
+    else:
+        print("Unable to find <TOC> tag or existing toc, no changes were made.")
+        return
 
     file_update = open(filename, "w")
     file_update.write(filecontents)
@@ -93,4 +96,4 @@ if __name__ == "__main__":
         except FileNotFoundError as e:
             print(e)
     else:
-        print("USAGE:", "$ python3 toc-gen.py filename.md")
+        print("USAGE:", "$ python3 toc-gen.py filename.md", "\nEnsure <TOC> is in the markdown file.")
