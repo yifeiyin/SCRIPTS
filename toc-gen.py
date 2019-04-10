@@ -15,6 +15,9 @@ with `<!-- /TOC -->`, so it can be updated overtime.
 - If there is only one h1 section (i.e. The section starts with one hashtag),
 it will be ignored. This ensures that the biggest title will not be captured
 and occupies extra space.
+
+- Use `<tocignore>` and `</tocignore>` tags to prevent some part of the markdown 
+appearing in the toc.
 """
 
 import re
@@ -26,13 +29,13 @@ string_to_replace_pattern = r"<!-- TOC -->(.*\n)((.*\n)*)<!-- /TOC -->"
 def generateTOC(filename):
     contents = []
     with open(filename, "r") as ins:
-        in_toc_flag = False
+        toc_ignore_flag = False
         for line in ins:
-            if "<!-- TOC -->" in line:
-                in_toc_flag = True
-            if "<!-- /TOC -->" in line:
-                in_toc_flag = False
-            if in_toc_flag:
+            if "<!-- TOC -->" in line or "<tocignore>" in line:
+                toc_ignore_flag = True
+            if "<!-- /TOC -->" in lineor "</tocignore>" in line:
+                toc_ignore_flag = False
+            if toc_ignore_flag:
                 continue;
 
             searchObj = re.search( r'(#+)\ (.+)', line, re.M | re.I)
@@ -75,6 +78,10 @@ def generateTOC(filename):
     if "<TOC>" in filecontents:
         print("Adding toc...", end="")
         filecontents = re.sub("<TOC>", toctext, filecontents, flags = re.M | re.I)
+    elif "<toc>" in filecontents: # Duplicated code, dealing with lower letters <toc>
+        print("Adding toc...", end="")
+        filecontents = re.sub("<toc>", toctext, filecontents, flags = re.M | re.I)
+        
     elif "<!-- TOC -->" in filecontents:
         print("Updating toc...", end="")
         filecontents = re.sub(string_to_replace_pattern, toctext, filecontents, flags = re.M | re.I)
