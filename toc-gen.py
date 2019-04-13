@@ -33,7 +33,7 @@ def generateTOC(filename):
         for line in ins:
             if "<!-- TOC -->" in line or "<tocignore>" in line:
                 toc_ignore_flag = True
-            if "<!-- /TOC -->" in lineor "</tocignore>" in line:
+            if "<!-- /TOC -->" in line or "</tocignore>" in line:
                 toc_ignore_flag = False
             if toc_ignore_flag:
                 continue;
