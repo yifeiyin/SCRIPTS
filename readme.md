@@ -16,3 +16,6 @@ Table of Content Generator for markdown files. See the file for usage and other 
 
 See the file for more information.
 
+### format-github-images.py
+
+Format images uploaded to GitHub issues.
