@@ -3,10 +3,8 @@
 # !zsh
 input=$(pbpaste)
 urls=$(grep -Eoi '(http|https)://[^\)]+' <<< "$input")
-python3 url-process.py <<< "$urls" | pbcopy
+python3 format-github-images.py <<< "$urls" | pbcopy
 '''
-
-import sys
 
 a = open(0).read()
 
