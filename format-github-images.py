@@ -1,22 +1,39 @@
-''' Use this bash/zsh script to make it work with pbcopy and pbpaste.
+"""
+Format images uploaded to github issues
 
-# !zsh
-input=$(pbpaste)
-urls=$(grep -Eoi '(http|https)://[^\)]+' <<< "$input")
-python3 format-github-images.py <<< "$urls" | pbcopy
-'''
+function yy-fgi { pbpaste | python3 $YY_SCRIPTS/format-github-images.py | pbcopy }
+"""
 
-a = open(0).read()
+import re
 
-if len(a) < 20 or len(a) > 500:
-    print("Content size is " + len(a));
-    exit(1);
+with open('/dev/stdin') as i, open('/dev/stdout', 'w') as o, open('/dev/stderr', 'w') as e:
+    text = i.read()
+    if len(text) < 20:
+        e.write('Refuse to process: text too short\n')
+        exit(1)
 
-print('<p>')
-for line in a.split():
-    print('<img float="left" width="32%" src="' + line + '" />')
+    if len(text) > 500:
+        e.write('Refuse to process: text too long\n')
+        exit(1)
 
-print('</p>')
-print('<!--')
-print(a, end='')
-print('-->')
+    urls = []
+    for line in text.split():
+        result = re.search(r'https://user-images\.githubusercontent\.com[^\)]+', line)
+        if result is None: continue
+        urls.append(result.group(0))
+
+    if len(urls) == 0:
+        e.write('Aborted: no url detected\n')
+        exit(1)
+
+
+    o.write('<p>\n')
+    for url in urls:
+        o.write(f'<img float="left" width="32%" src="{url}" />\n')
+    o.write('<p>\n')
+
+    o.write('<!--\n')
+    o.write(text)
+    if not text.endswith('\n'):
+        o.write('\n')
+    o.write('-->\n')

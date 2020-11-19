@@ -1,3 +1,24 @@
+"""
+View UTSC laundry status from the command line
+
+
+Example Output:
+
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+University Of Toronto - Scarborough Campus
+Foley 1
+2020-01-18 18:32:59
+
+Washers
+    01 ▕▒▒▒▒▒▒▒        ▏ 35 mins remaining
+    02 ▕               ▏ Available
+
+Dryers
+    03 ▕               ▏ Available
+    04 ▕               ▏ Available
+
+"""
+
 import json
 from urllib.request import urlopen
 
@@ -102,6 +123,3 @@ if __name__ == '__main__':
 
     print("=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=")
     print(get_status(*FOLEY))
-
-
-
