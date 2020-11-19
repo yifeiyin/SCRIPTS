@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+# Save link in pasteboard as a desktop shortcut.
+#
+# Usage:
+# urlpaste FILE_NAME
+
+urlpaste() {
+    if [[ -z "$1" ]]; then
+        echo "Please provide a valid file name."
+        exit 1
+    else
+        echo "[InternetShortcut]\nURL=$(pbpaste)" >> "$1.url"
+        echo "$(pbpaste) has been saved."
+    fi
+}
