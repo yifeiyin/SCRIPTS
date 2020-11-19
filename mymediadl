@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+# Usage:
+#   yy-mediadl URL [FILE_NAME]
+
+yy-mediadl() {
+    URL=$(echo "$1" | awk -F '/' '{ print $NF }')
+    echo "Downloading $URL"
+    NAME="$2"
+    if [[ -z $NAME ]]; then
+        NAME=$(date '+%Y-%m-%d-%H%M%S(%z)')
+    fi
+    ffmpeg \
+        -v warning \
+        -stats \
+        -i "https://stream.library.utoronto.ca:1935/MyMedia/play/mp4:1/$URL.mp4/playlist.m3u8" \
+        -c copy \
+        "$NAME.mp4"
+}

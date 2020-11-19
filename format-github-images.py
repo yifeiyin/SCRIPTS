@@ -1,7 +1,7 @@
 """
 Format images uploaded to github issues
 
-function yy-fgi { pbpaste | python3 $YY_SCRIPTS/format-github-images.py | pbcopy }
+function yy-fgi() { pbpaste | python3 $YY_SCRIPTS/format-github-images.py | pbcopy }
 """
 
 import re
